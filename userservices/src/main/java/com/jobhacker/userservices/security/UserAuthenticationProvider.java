@@ -3,6 +3,8 @@ package com.jobhacker.userservices.security;
 import com.jobhacker.userservices.entity.User;
 import com.jobhacker.userservices.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,8 +32,8 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         if(user.size() > 0){
             if(passwordEncoder.matches(password,user.get(0).getPassword())){
                 List<GrantedAuthority>authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-                return new UsernamePasswordAuthenticationToken(email,password,null);
+//                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                return new UsernamePasswordAuthenticationToken(email,password,authorities);
             }
             else {
                 throw new BadCredentialsException("Invalid password");
